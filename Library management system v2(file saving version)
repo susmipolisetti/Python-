@@ -1,0 +1,96 @@
+import json
+
+FILE_NAME = "library_data.json"
+
+# Load data from file
+def load_data():
+    try:
+        with open(FILE_NAME, "r") as file:
+            return json.load(file)
+    except:
+        return {}
+
+# Save data to file
+def save_data():
+    with open(FILE_NAME, "w") as file:
+        json.dump(library, file)
+
+library = load_data()
+
+
+def add_book():
+    book = input("Enter book name: ").strip().title()
+
+    if book == "":
+        print("Book name cannot be empty!\n")
+        return
+
+    if book in library:
+        print("Book already exists!\n")
+    else:
+        library[book] = "Available"
+        save_data()
+        print("Book added successfully!\n")
+
+
+def view_books():
+    if not library:
+        print("\nNo books available!\n")
+        return
+
+    print("\n--- BOOK LIST ---")
+    for book, status in library.items():
+        print(f"{book} - {status}")
+
+
+def issue_book():
+    book = input("Enter book to issue: ").strip().title()
+
+    if book in library:
+        if library[book] == "Available":
+            library[book] = "Issued"
+            save_data()
+            print("Book issued successfully!\n")
+        else:
+            print("Book already issued!\n")
+    else:
+        print("Book not found!\n")
+
+
+def return_book():
+    book = input("Enter book to return: ").strip().title()
+
+    if book in library:
+        if library[book] == "Issued":
+            library[book] = "Available"
+            save_data()
+            print("Book returned successfully!\n")
+        else:
+            print("Book was not issued!\n")
+    else:
+        print("Book not found!\n")
+
+
+while True:
+    print("\n====== LIBRARY SYSTEM v2 ======")
+    print("1. Add Book")
+    print("2. View Books")
+    print("3. Issue Book")
+    print("4. Return Book")
+    print("5. Exit")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        add_book()
+    elif choice == "2":
+        view_books()
+    elif choice == "3":
+        issue_book()
+    elif choice == "4":
+        return_book()
+    elif choice == "5":
+        print("Exiting... Data saved!")
+        break
+    else:
+        print("Invalid choice!\n")
