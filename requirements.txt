@@ -1,0 +1,11 @@
+langgraph
+langchain
+langchain-community
+langchain-openai
+faiss-cpu
+openai
+python-dotenv
+pypdf
+tiktoken
+pandas
+numpy
